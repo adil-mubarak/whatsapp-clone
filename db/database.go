@@ -27,14 +27,16 @@ func GetDB() {
 	)
 
 	var err error
-	DB,err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
-	if err != nil{
-		log.Fatalf("Failed to connect to database: %v",err)
+	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	if err != nil {
+		log.Fatalf("Failed to connect to database: %v", err)
 	}
 
 	log.Println("Database connected successfully")
 
-	if err := DB.AutoMigrate(models.User{}); err != nil{
-		log.Println("failed to migreate database: ",err)
+	if err := DB.AutoMigrate(&models.User{}, &models.Message{}, &models.Group{},&models.GroupMember{}, &models.StatusUpdate{}); err != nil {
+		log.Println("failed to migreate database: ", err)
+	} else {
+		log.Println("Migration completed successfully")
 	}
 }

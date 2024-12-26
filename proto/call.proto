@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+option go_package = "./proto";
+
+package call;
+
+service CallService {
+    rpc InitiateCall (InitiateCallRequest) returns (CallResponse);
+    rpc CallStream (stream CallSignal) returns (stream CallSignal);
+}
+
+message InitiateCallRequest{
+    int32 caller_id = 1;
+    int32 callee_id = 2;
+    string call_type = 3; // voice or video
+}
+
+message CallResponse {
+    bool success = 1;
+    string message = 2;
+    string call_id = 3;
+}
+
+message CallSignal{
+    string signal_data = 1;
+    string call_id = 2;
+}

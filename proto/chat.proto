@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+option go_package = "./proto";
+
+package chat;
+
+service ChatService{
+    rpc SendMessage (MessageRequest) returns (MessageResponse);
+    rpc ChatStream (stream ChatMessage) returns (stream ChatMessage);
+}
+
+message MessageRequest {
+    uint32 sender_id = 1;
+    uint32 receiver_id = 2;
+    uint32 group_id = 3;
+    string content = 4;
+    string media_url = 5;
+}
+
+message ChatMessage{
+    uint32 sender_id = 1;
+    uint32 receiver_id = 2;
+    uint32 group_id = 3;
+    string content = 4;
+    string timestamp = 5;
+    string media_url = 6;
+}
+
+message MessageResponse{
+    bool success = 1;
+    string message = 2;
+}
