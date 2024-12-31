@@ -28,28 +28,26 @@ type Message struct {
 	Timestamp  time.Time `gorm:"type:timestamp;default:CURRENT_TIMESTAMP;not null" json:"timestamp"`
 }
 
-	type Group struct {
-		ID          uint64    `gorm:"primarykey;autoIncrement;" json:"id"`  
-		Name        string    `gorm:"size:100;not null" json:"name"`
-		Description string    `gorm:"type:text" json:"description"`
-		ProfileURL  string    `gorm:"size:255" json:"profile_url"`
-		Status      string    `gorm:"type:text" json:"status"`
-		AdminID     uint      `gorm:"not null" json:"admin_id"`
-		Admin       User      `gorm:"foreignKey:AdminID" json:"admin"`
-		CreatedAt   time.Time `gorm:"type:timestamp;default:CURRENT_TIMESTAMP;not null" json:"created_at"`
-		UpdatedAt   time.Time `gorm:"type:timestamp;default:CURRENT_TIMESTAMP;onUpdate:CURRENT_TIMESTAMP;not null" json:"updated_at"`
-	}
+type Group struct {
+    ID          uint64        `gorm:"primarykey;autoIncrement;" json:"id"`
+    Name        string        `gorm:"size:100;not null" json:"name"`
+    Description string        `gorm:"type:text" json:"description"`
+    ProfileURL  string        `gorm:"size:255" json:"profile_url"`
+    Status      string        `gorm:"type:text" json:"status"`
+    Members     []GroupMember `gorm:"foreignKey:GroupID;references:ID" json:"members"` 
+    CreatedAt   time.Time     `gorm:"type:timestamp;default:CURRENT_TIMESTAMP;not null" json:"created_at"`
+    UpdatedAt   time.Time     `gorm:"type:timestamp;default:CURRENT_TIMESTAMP;onUpdate:CURRENT_TIMESTAMP;not null" json:"updated_at"`
+}
 
-
-	type GroupMember struct {
-		ID       uint64    `gorm:"primarykey;autoIncrement;type:bigint unsigned" json:"id"`
-		GroupID  uint64    `gorm:"not null;type:bigint unsigned" json:"group_id"`
-		Group    Group     `gorm:"foreignKey:GroupID" json:"group"`
-		UserID   uint      `gorm:"not null" json:"user_id"`
-		User     User      `gorm:"foreignKey:UserID" json:"user"`
-		IsAdmin  bool      `gorm:"default:false" json:"is_admin"`
-		JoinedAt time.Time `gorm:"type:timestamp;default:CURRENT_TIMESTAMP;not null" json:"joined_at"`
-	}
+type GroupMember struct {
+    ID       uint64    `gorm:"primarykey;autoIncrement;type:bigint unsigned" json:"id"`
+    GroupID  uint64    `gorm:"not null;type:bigint unsigned" json:"group_id"`
+    Group    Group     `gorm:"foreignKey:GroupID;references:ID" json:"group"` 
+    UserID   uint      `gorm:"not null" json:"user_id"`
+    User     User      `gorm:"foreignKey:UserID;references:ID" json:"user"`  
+    IsAdmin  bool      `gorm:"default:false" json:"is_admin"`
+    JoinedAt time.Time `gorm:"type:timestamp;default:CURRENT_TIMESTAMP;not null" json:"joined_at"`
+}
 
 type MessageStatus struct {
 	ID        uint      `gorm:"primaryKey"`
