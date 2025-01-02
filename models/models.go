@@ -75,7 +75,7 @@ type UserActivity struct {
 type StatusUpdate struct {
 	ID        uint      `gorm:"primarykey;autoIncrement" json:"id"`
 	UserID    uint      `gorm:"not null" json:"user_id"`
-	User      User      `gorm:"type:text" json:"user"`
+	User      User     `gorm:"foreignKey:UserID;references:ID" json:"user"`
 	MediaURL  string    `gorm:"size:255" json:"media_url"`
 	ExpiresAt time.Time `gorm:"type:timestamp" json:"expires_at"`
 }

@@ -27,6 +27,13 @@ func SetUpRouter() *gin.Engine {
 		router.POST("/addgroupmember/:id", services.AddGroupMember)
 		router.POST("/removegroupmember/:id/:user_id", services.RemoveGroupMember)
 		router.POST("/adminassign/:id", services.AssignAdmin)
+		router.GET("/groups", services.GetGroups)
+		router.GET("/group/:id", services.GetGroup)
+		router.GET("/groupMemberes/:id", services.ListOfGroupMember)
+
+		router.POST("/status", services.CreateStatus)
+		router.GET("/status", services.ViewStatus)
+		router.POST("/uploadstatus", services.UploadFileToStatus)
 
 		router.GET("/webmsg", service.WebSocketHandler)
 		go service.BroadCastMessages()

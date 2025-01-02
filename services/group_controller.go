@@ -25,7 +25,7 @@ func CreateGroup(c *gin.Context) {
 
 func GetGroups(c *gin.Context) {
 	var groups []models.Group
-	if err := db.DB.Preload("Members").Find(&groups); err != nil {
+	if err := db.DB.Find(&groups).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get groups"})
 		return
 	}
@@ -37,7 +37,7 @@ func GetGroup(c *gin.Context) {
 	groupID := c.Param("id")
 	var group models.Group
 
-	if err := db.DB.Preload("Members").First(&group, groupID).Error; err != nil {
+	if err := db.DB.Where("id = ?", groupID).Preload("Members.User").First(&group).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Group not found"})
 		return
 	}
@@ -93,9 +93,11 @@ func AddGroupMember(c *gin.Context) {
 func ListOfGroupMember(c *gin.Context) {
 	groupID := c.Param("id")
 	var members []models.GroupMember
-	if err := db.DB.Where("group_id = ?", groupID).Find(&members).Error; err != nil {
+	if err := db.DB.Where("group_id = ?", groupID).Preload("User").Find(&members).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, members)
 }
+
+
