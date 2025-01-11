@@ -1,14 +1,18 @@
 package routs
 
 import (
+	"net/http"
 	"whatsapp/pkg/service"
 	services "whatsapp/services"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 func SetUpRouter() *gin.Engine {
 	router := gin.Default()
+
+	router.Use(cors.Default())
 
 	router.POST("/request-otp", services.RequestOTP)
 	router.POST("/verify-otp", services.VerifyOTP)
@@ -35,8 +39,9 @@ func SetUpRouter() *gin.Engine {
 		router.GET("/status", services.ViewStatus)
 		router.POST("/uploadstatus", services.UploadFileToStatus)
 
-		router.GET("/webmsg", service.WebSocketHandler)
-		go service.BroadCastMessages()
+		http.HandleFunc("/offer", service.HandleOffer)
+		// router.GET("/webmsg", service.WebSocketHandler)
+		// go service.BroadCastMessages()
 	}
 
 	return router

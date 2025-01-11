@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebRTC Video/Audio Call</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f0f2f5;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #4a90e2;
+            margin-bottom: 20px;
+        }
+
+        video {
+            width: 45%;
+            height: auto;
+            margin: 10px;
+            border: 2px solid #4a90e2;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #localVideo {
+            transform: scaleX(-1);
+        }
+
+        .video-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        button {
+            font-size: 16px;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #startCall {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        #startCall:hover {
+            background-color: #45a049;
+        }
+
+        #hangupCall {
+            background-color: #f44336;
+            color: white;
+        }
+
+        #hangupCall:hover {
+            background-color: #e53935;
+        }
+
+        @media (max-width: 768px) {
+            video {
+                width: 90%;
+            }
+
+            button {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>WebRTC Video/Audio Call</h1>
+
+    <div class="video-container">
+        <video id="localVideo" autoplay muted></video>
+        <video id="remoteVideo" autoplay></video>
+    </div>
+
+    <button id="startCall">Start Call</button>
+    <button id="hangupCall" style="display: none;">End Call</button>
+
+    <script src="client.js"></script>
+</body>
+</html>

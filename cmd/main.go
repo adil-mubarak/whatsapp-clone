@@ -15,7 +15,6 @@ func main() {
 	db.GetDB()
 	r := routes.SetUpRouter()
 	r.Run(":8080")
-
 	go func() {
 		lis, err := net.Listen("tcp", ":50051")
 		if err != nil {
